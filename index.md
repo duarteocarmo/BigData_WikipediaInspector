@@ -6,17 +6,39 @@ PS: I will also send and markdown file so that you can make sure I didn't change
 
 The solution has severall parts:
 
-1. How I clean an xml page. 
-2. How I indexed the articles and cleaned the files. 
-3. How I access my cleaned files for queries. 
-4. How I query 
-5. How it all comes together. 
+- Part 1: Cleaning an xml page.
+- Part 2: Indexing the articles and storing the cleaned version. 
+- Part 3: Accessing the cleaned files. 
+- Part 4: Querying for a pattern. 
+- Part 5: Testing. 
 
 I'm gonna try to make this as simple as possible! So hold tight. 
 
 ### Part 1: Cleaning an XML page. 
 
-After downloading the multistream I made the mistake of downloading it, therefore, I ended up with a 64GB file. I knew that  
+The **multistream.xml** (64GB = goodbye hardrive.) is a separation of all of the articles into their xml format. Therefore, before getting all of the articles, I decided to make a function that takes the **xml page of an article**, and only returns the contents of the contents of the **text** tag. Sometimes, the page has absolutely nothing inside it (I don't know how/why) therefore, when this happens, it returns '#redirect'. You'll see why in the next part. 
+
+You can find my cleanPage function [here]().
+
+Here is a snippet of the function: 
+
+```python
+def cleanPage(xmlpage):
+    import xml.etree.ElementTree as ET
+    
+    tree = ET.fromstring(xmlpage)
+    
+    for node in tree.iter():
+        if node.tag == 'text':
+            text = node.text
+            if text is None:
+                return '#redirect'
+            else:
+                text = text.replace('\n', ' ').replace('\r', '')
+                text = text.lower()
+
+                return text
+```
 
 
 
