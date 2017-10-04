@@ -28,7 +28,7 @@ Syntax highlighted code block
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
-```markdown
+```python
 import re
 import json
 import time
@@ -126,6 +126,7 @@ with open(path_save_indexer) as file:
 
 if numberoflinesintext == len(wiki_indexer):
     print 'There is coherence.'
+
 
 ```
 ### Jekyll Themes
