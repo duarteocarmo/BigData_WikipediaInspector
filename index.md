@@ -1,12 +1,12 @@
-## Welcome to Challenge 1 of Big Data Tools: Project Wikipedia
+## Welcome to my solution for the first challenge, aka: 'WIKI_DESTROYER'
 
-You can use the [editor on GitHub](https://github.com/duarteocarmo/WIKIPEDIA/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+As you might have noticed by know, in this website I will try to explain a little bit how my solution works. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Thanks for taking the time. This was hard, and I did it alone: bad idea. Here we go. 
 
-### Markdown
+### Part 1: Indexing and Cleaning at the same time. 
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+So, once I decompressed the bz2 file, I got a **huge** xml file that I could not even open. To tackle this, I managed to get an idea of what it looked like. 
 
 ```markdown
 Syntax highlighted code block
