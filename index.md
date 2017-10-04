@@ -8,25 +8,7 @@ Thanks for taking the time. This was hard, and I did it alone: bad idea. Here we
 
 So, once I decompressed the bz2 file, I got a **huge** xml file that I could not even open. To tackle this, I managed to get an idea of what it looked like. 
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+You can fint the file [here](https://github.com/duarteocarmo/WIKIPEDIA/blob/master/Project/P1_Wikipedia_Extractor.py).
 
 ```python
 import re
@@ -35,13 +17,10 @@ import time
 from P1_time_string import hms_string
 from P1_Clean_Page import cleanPage
 
-
-
 # Get path of necessary files
 path_xml = '/Users/duarteocarmo/Desktop/bigdata/enwiki-20170820-pages-articles-multistream.xml'
 path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
 path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
-
 
 # Important variables to define
 total_pages = 5483785.00
@@ -126,7 +105,6 @@ with open(path_save_indexer) as file:
 
 if numberoflinesintext == len(wiki_indexer):
     print 'There is coherence.'
-
 
 ```
 ### Jekyll Themes
