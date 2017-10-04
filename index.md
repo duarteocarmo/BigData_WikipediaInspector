@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Welcome to Challenge 1 of Big Data Tools: Project Wikipedia
 
 You can use the [editor on GitHub](https://github.com/duarteocarmo/WIKIPEDIA/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
