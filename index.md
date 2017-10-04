@@ -18,7 +18,7 @@ I'm gonna try to make this as simple as possible! So hold tight.
 
 The **multistream.xml** (64GB = goodbye hardrive.) is a separation of all of the articles into their xml format. Therefore, before getting all of the articles, I decided to make a function that takes the **xml page of an article**, and only returns the contents of the contents of the **text** tag. Sometimes, the page has absolutely nothing inside it (I don't know how/why) therefore, when this happens, it returns '#redirect'. You'll see why in the next part. 
 
-You can find my cleanPage function [here]().
+You can find my cleanPage function [here](https://github.com/duarteocarmo/WIKIPEDIA/blob/master/Project/P1_Clean_Page.py).
 
 Here is a snippet of the function: 
 
@@ -42,20 +42,7 @@ def cleanPage(xmlpage):
 
 
 
+### Part 2: Indexing the articles and storing their clean version. 
 
+The second part….
 
-
-
-
-
-
-
-
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/duarteocarmo/WIKIPEDIA/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
