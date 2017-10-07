@@ -94,14 +94,12 @@ with open(path_xml) as infile:
 
         # detect and store article name
         if '<title>' in line:
-
             match = re.search(r'>(.*)<', line)
             if match:
                 title = match.group()[1:-1]
 
         # if </page> tag detected, store values of important lines in dictionary
         if '</page>' in line:
-
             contents += line
             number_of_articles += 1.0
             clean = cleanPage(contents).encode('utf-8')
@@ -113,27 +111,10 @@ with open(path_xml) as infile:
                 f.write(clean + '\n')
 
             page_detected = 0
-
-        # test setting
-        # if files_written == 220600:
-        #     break
-
+            
         number_of_lines += 1
 
     f.close()
-
-# finish timer and get prediction on total time.
-elapsed_time = time.time() - start_time
-elapsed_for_total = total_pages * (elapsed_time / number_of_articles)
-
-# Inform user
-print 'You parsed {} articles and wrote {}.'.format(number_of_articles, files_written)
-print 'Elapsed time: {}'.format(hms_string(elapsed_time))
-print 'It will take you: {}'.format(hms_string(elapsed_for_total))
-
-# Save dictionary to JSON file.
-with open(path_save_indexer, 'w') as file:
-    file.write(json.dumps(wiki_index))
 ```
 
 After running this function, the console outputs the following message:
@@ -145,7 +126,7 @@ It will take you: 0:38:20.97
 There is coherence.
 ```
 
-This indicates not only the number of articles that were parsed (without redirects), but also if there is coherence between the number of files indexed and written. (See more details in script.)
+This indicates not only the number of articles that were parsed (with redirects), but also if there is coherence between the number of files indexed (without redirects) and written. (See more details in script.)
 
 ### Part 3: Accessing the cleaned files. 
 
@@ -153,17 +134,12 @@ Three different functions were designed for three needs: Getting a single line, 
 
 #### Getting a single line: 
 
-In order to get a single line, the script simply looks for the page name in the indexer file, and consequently returns the corresponding line the 'master text file'.
+In order to get a single line, the script simply looks for **the page name in the indexer file**, and consequently returns the corresponding line the 'master text file'.
 
 Here's a portion of the script: 
 
 ```python
-# Extract text from XML dump file based on indexer
 def getPage_from_article(articlename):
-
-    # Get path of necessary files
-    path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
-    path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
     print 'Opening Indexer...'
 
@@ -189,17 +165,81 @@ def getPage_from_article(articlename):
                 final = line
 
     print 'Got line.'
-
     return final
 ```
 
 Don't forget that you can access the full code here. 
 
+#### Getting multiple pages based on starting letter. 
 
+In this type of problem, the script looks for all the articles names in the JSON indexer **that start with a particular lette**r, and consequently stores the lines where these occur. 
 
+Here's a portion of the function: 
 
+```python
+def getPage_from_articles_letter(letter):
+  
+    print 'Opening Indexer'
 
+    with open(path_save_indexer) as file:
+        wiki_indexer = json.load(file)
 
+    print 'Indexer Open'
+
+    indexes = []
+
+    for article in wiki_indexer.keys():
+
+        if article.startswith(letter):
+            indexes.append(wiki_indexer[article])
+
+    print 'Getting Pages...'
+
+    current_line = 0
+    contents = ''
+
+    # Loop over lines and return when its reached.
+    with open(path_master_file) as infile:
+        for line in infile:
+            current_line += 1
+
+            if current_line in indexes:
+                contents = contents + line
+
+    print 'Got Pages with {}'.format(letter)
+    return contents
+```
+
+#### Getting all pages. 
+
+Since we already cleaned the text, **we can ignore the indexer file** for this part. 
+
+Here's the script: 
+
+```python  
+def getPage_from_all():
+
+    # Get path of necessary files
+    path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
+
+    print 'Getting Pages...'
+
+    contents = ''
+
+    # Loop over lines and return when its reached.
+    with open(path_master_file) as infile:
+        for line in infile:
+                contents = contents + line
+
+    print 'Got all Pages.'
+    return contents
+```
 
 ### Part 4: Querying for a pattern. 
+
+My first approach was to use regex, but for detecting overlapping matches it proved to be not the best solution. Therefore, I adopted the script provided by our teacher and 'adapted it' to return a list of the matches form a string. 
+
+You can see the code on the GitHub project page if you're interested. 
+
+### Part 5: Testing and results.
 
