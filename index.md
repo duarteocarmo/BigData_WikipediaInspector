@@ -256,11 +256,6 @@ For every one of the tests that can be found in the GitHub page, the procedure i
 In order to test in the 'Cat' page for example, and following the above methodology, the following script is produced:
 
 ```python
-from P1_Extract_Page import getPage_from_article
-from P1_Pattern_Match import get_all_matches
-from P1_time_string import hms_string
-import time
-
 # define paths
 path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
 path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
@@ -355,4 +350,8 @@ pages = getPage_from_all()
 ```
 
 This returns:
+
+```shell
+
+```
 
