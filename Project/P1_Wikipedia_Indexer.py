@@ -5,7 +5,6 @@ from P1_time_string import hms_string
 from P1_Clean_Page import cleanPage
 
 
-
 # Get path of necessary files
 path_xml = '/Users/duarteocarmo/Desktop/bigdata/enwiki-20170820-pages-articles-multistream.xml'
 path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
@@ -81,18 +80,16 @@ print 'Elapsed time: {}'.format(hms_string(elapsed_time))
 print 'It will take you: {}'.format(hms_string(elapsed_for_total))
 
 # Save dictionary to JSON file.
-with open(path_save_indexer, 'w') as file:
-    file.write(json.dumps(wiki_index))
+with open(path_save_indexer, 'w') as json_file:
+    json_file.write(json.dumps(wiki_index))
 
 # number of lines confirm
 with open(path_master_file) as f:
-    numberoflinesintext = sum(1 for _ in f)
-
+    number_of_lines_in_text = sum(1 for _ in f)
 
 # test json
-with open(path_save_indexer) as file:
-    wiki_indexer = json.load(file)
+with open(path_save_indexer) as json_file:
+    wiki_indexer = json.load(json_file)
 
-if numberoflinesintext == len(wiki_indexer):
+if number_of_lines_in_text == len(wiki_indexer):
     print 'There is coherence.'
-

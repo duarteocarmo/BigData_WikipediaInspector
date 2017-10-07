@@ -8,7 +8,7 @@ def getPage_from_all():
     # Get path of necessary files
     path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
-    print 'Getting Pages... '
+    print 'Getting Pages...'
 
     contents = ''
 

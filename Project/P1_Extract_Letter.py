@@ -1,9 +1,10 @@
 import json
-import linecache
 
 
 # Extract text from XML dump file based on indexer
 def getPage_from_articles_letter(letter):
+
+    letter_lowercase = letter.lower()
 
     # Get path of necessary files
     path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
@@ -19,8 +20,9 @@ def getPage_from_articles_letter(letter):
     indexes = []
 
     for article in wiki_indexer.keys():
+        article_lowercase = article.lower()
 
-        if article.startswith(letter):
+        if article_lowercase.startswith(letter_lowercase):
             indexes.append(wiki_indexer[article])
 
     print 'Getting Pages...'

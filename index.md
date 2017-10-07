@@ -10,7 +10,7 @@ The solution has severall parts:
 - Part 2: Indexing the articles and storing the cleaned version. 
 - Part 3: Accessing the cleaned files. 
 - Part 4: Querying for a pattern. 
-- Part 5: Testing. 
+- Part 5: Testing and results. 
 
 I'm gonna try to make this as simple as possible! So hold tight. 
 
@@ -178,7 +178,9 @@ Here's a portion of the function:
 
 ```python
 def getPage_from_articles_letter(letter):
-  
+
+    letter_lowercase = letter.lower()
+
     print 'Opening Indexer'
 
     with open(path_save_indexer) as file:
@@ -189,8 +191,9 @@ def getPage_from_articles_letter(letter):
     indexes = []
 
     for article in wiki_indexer.keys():
+        article_lowercase = article.lower()
 
-        if article.startswith(letter):
+        if article_lowercase.startswith(letter_lowercase):
             indexes.append(wiki_indexer[article])
 
     print 'Getting Pages...'
@@ -207,6 +210,7 @@ def getPage_from_articles_letter(letter):
                 contents = contents + line
 
     print 'Got Pages with {}'.format(letter)
+
     return contents
 ```
 
@@ -242,4 +246,113 @@ My first approach was to use regex, but for detecting overlapping matches it pro
 You can see the code on the GitHub project page if you're interested. 
 
 ### Part 5: Testing and results.
+
+So that everything can be tested, 3 test files will be provided in the repo. Each one of them for a different situation described in Part 3. 
+
+For every one of the tests that can be found in the GitHub page, the procedure is pretty much the same and is commented accordingly. This procedure consists of: defining the patterns for querying, getting pages, and looping over the patterns to find matches. All of the print statements "guide" the user, and the scripts are also commented. 
+
+#### Querying a single page
+
+In order to test in the 'Cat' page for example, and following the above methodology, the following script is produced:
+
+```python
+from P1_Extract_Page import getPage_from_article
+from P1_Pattern_Match import get_all_matches
+from P1_time_string import hms_string
+import time
+
+# define paths
+path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
+path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
+
+# patterns for query
+pattern1 = ["cat", (0, 10), "are", (2, 6), "to"]
+pattern2 = ["or", (6, 7), "or", (2, 6), "or"]
+pattern3 = ["when", (6, 7), "republic", (2, 6), "along"]
+patterns = [pattern1, pattern2, pattern3]
+
+# get necessary pages
+page = getPage_from_article('Cat')
+
+# start match counter
+match_counter = 0
+
+# loop over patterns
+for pattern in patterns:
+
+    start_time = time.time()
+    found = []
+    matches = get_all_matches(page, pattern)
+
+    if len(matches) != 0:
+        match_counter += len(matches)
+        found.append(matches)
+
+    elapsed_time = time.time() - start_time
+    print '\nFor the pattern {} we found {} matches in {}:'.format(pattern, match_counter, hms_string(elapsed_time))
+    print found
+```
+
+The code prints if run: 
+
+```shell
+Opening Indexer...
+Indexer Open.
+Fetching line...
+Got line.
+
+For the pattern ['cat', (0, 10), 'are', (2, 6), 'to'] we found 3 matches in 0:00:00.83:
+[['cat care: how to', 'cats are [[lacto', 'cats are able to']]
+
+For the pattern ['or', (6, 7), 'or', (2, 6), 'or'] we found 4 matches in 0:00:01.02:
+[['orld record for']]
+
+For the pattern ['when', (6, 7), 'republic', (2, 6), 'along'] we found 4 matches in 0:00:00.79:
+[]
+```
+
+#### Querying all pages started in 'A'
+
+For querying all of the pages started in A, the procedure is the same, only a portion of the code changes: 
+
+```python
+# get necessary pages
+pages = getPage_from_articles_letter('A')
+print pages
+
+# start match counter
+match_counter = 0
+
+# loop over patterns
+for pattern in patterns:
+    start_time = time.time()
+
+    found = []
+    for page in pages:
+        matches = get_all_matches(page, pattern)
+        if len(matches) != 0:
+            match_counter += len(matches)
+            found.append(matches)
+    elapsed_time = time.time() - start_time
+
+    print '\nFor the pattern {} we found {} matches in {}:'.format(pattern, match_counter, hms_string(elapsed_time))
+    print found
+```
+
+This returns the following: 
+
+```shell
+
+```
+
+#### Querying for the whole of Wikipedia
+
+When querying the whole of Wikipedia, only this line changes, prompting all of wikipedia.
+
+```python
+# get necessary pages
+pages = getPage_from_all()
+```
+
+This returns:
 
