@@ -2,7 +2,7 @@
 
 It was a long, tedious and lonely road but here it is (I think). Instead of writting a report on share latex, I decided to make a website explaining my solution. Like this I can include code snippets, links to the repo and much more. 
 
-PS: I will also send and markdown file so that you can make sure I didn't change anything after the delivery date. 
+PS: I will also send a markdown file so that you can make sure I didn't change anything after the delivery date. 
 
 The solution has severall parts:
 
