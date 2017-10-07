@@ -42,8 +42,6 @@ def cleanPage(xmlpage):
                 return text
 ```
 
-
-
 ### Part 2: Indexing the articles and storing their clean version. 
 
 The indexing and cleaning were done all at once. 
@@ -138,11 +136,70 @@ with open(path_save_indexer, 'w') as file:
     file.write(json.dumps(wiki_index))
 ```
 
+After running this function, the console outputs the following message:
 
+```shell
+You parsed 17773690.0 articles and wrote 9575106.
+Elapsed time: 2:04:17.77
+It will take you: 0:38:20.97
+There is coherence.
+```
+
+This indicates not only the number of articles that were parsed (without redirects), but also if there is coherence between the number of files indexed and written. (See more details in script.)
 
 ### Part 3: Accessing the cleaned files. 
 
-lorem ipsum. 
+Three different functions were designed for three needs: Getting a single line, getting multiple lines, and getting all lines. 
+
+#### Getting a single line: 
+
+In order to get a single line, the script simply looks for the page name in the indexer file, and consequently returns the corresponding line the 'master text file'.
+
+Here's a portion of the script: 
+
+```python
+# Extract text from XML dump file based on indexer
+def getPage_from_article(articlename):
+
+    # Get path of necessary files
+    path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
+    path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
+
+    print 'Opening Indexer...'
+
+    # Get indexer file
+    with open(path_save_indexer) as file:
+        wiki_indexer = json.load(file)
+
+    print 'Indexer Open.'
+
+    # Get line number
+    index = wiki_indexer[articlename]
+
+    print 'Fetching line...'
+
+    current_line = 0
+
+    # Loop over lines and return when its reached.
+    with open(path_master_file) as infile:
+        for line in infile:
+            current_line += 1
+
+            if current_line == index:
+                final = line
+
+    print 'Got line.'
+
+    return final
+```
+
+Don't forget that you can access the full code here. 
+
+
+
+
+
+
 
 ### Part 4: Querying for a pattern. 
 
