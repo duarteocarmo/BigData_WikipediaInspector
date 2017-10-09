@@ -12,7 +12,7 @@ The solution has severall parts:
 - Part 4: Querying for a pattern. 
 - Part 5: Testing and results. 
 
-I'm gonna try to make this as simple as possible! So hold tight. 
+I'm gonna try to make this explanation as simple as possible! So hold tight. 
 
 ### Part 1: Cleaning an XML page. 
 
@@ -22,9 +22,7 @@ Sometimes, the page has absolutely nothing inside it (I don't know how/why) ther
 
 Oh, and it also replaces '/n' and '/r' with absolutely nothing. 
 
-You can find my cleanPage function [here](https://github.com/duarteocarmo/WIKIPEDIA/blob/master/Project/P1_Clean_Page.py).
-
-Here is a snippet of the function: 
+You can find my cleanPage function [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Clean_Page.py), or read the most important from it here: 
 
 ```python
 def cleanPage(xmlpage):
@@ -60,9 +58,7 @@ Therefore, if the dictonnary has:
 
 This means that the cleaned article corresponding to the title **Cat** is stored in the line nº2345 of the **articles.txt** file. 
 
-The file that does this is can be found [here](https://github.com/duarteocarmo/WIKIPEDIA/blob/master/Project/P1_Wikipedia_Indexer.py). 
-
-Anyways, here is a snippet of the most relevant part: 
+Anyways, here is a snippet of the most relevant part of [this](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Wikipedia_Indexer.py) script:
 
 ```python
 # Important variables to define
@@ -128,17 +124,17 @@ It will take you: 0:38:20.97
 There is coherence.
 ```
 
-This indicates not only the number of articles that were parsed (with redirects), but also if there is coherence between the number of files indexed (without redirects) and written. (See more details in script.)
+This indicates not only the number of articles that were parsed (with redirects), but also if there is **coherence** between the number of files indexed (without redirects) and written. (See more details in script.)
 
 ### Part 3: Accessing the cleaned files. 
 
-Three different functions were designed for three needs: Getting a single line, getting multiple lines, and getting all lines. 
+Two different functions were designed for three needs: Getting a single line, getting multiple lines, and getting all lines. 
 
 #### Getting a single line: 
 
-In order to get a single line, the script simply looks for **the page name in the indexer file**, and consequently returns the corresponding line the 'master text file'.
+In order to get a single line, the script simply looks for **the page name in the indexer file**, and consequently **returns the corresponding line** the 'master text file'.
 
-Here's a portion of the script: 
+Here's a portion of the script that you can find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Extract_Page.py).
 
 ```python
 def getPage_from_article(articlename):
@@ -170,8 +166,6 @@ def getPage_from_article(articlename):
     return final
 ```
 
-Don't forget that you can access the full code [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Extract_Page.py). 
-
 #### Getting multiple pages based on starting letter. 
 
 In this type of problem, the script looks for all the articles names in the JSON indexer **that starts with a particular lette**r, and consequently stores the lines where these occur. 
@@ -179,7 +173,6 @@ In this type of problem, the script looks for all the articles names in the JSON
 Here's a portion of the function that you can also find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Extract_Letter.py).
 
 ```python
-# Extract text from XML dump file based on indexer
 def getPage_from_articles_letter(letter):
 
     letter_lowercase = letter.lower()
@@ -199,19 +192,21 @@ def getPage_from_articles_letter(letter):
 
     articles_count = 0
 
+    # for each article that starts with letter append line number
     for article in wiki_indexer.keys():
         article_lowercase = article.lower()
         if article_lowercase.startswith(letter_lowercase):
             indexes.append(wiki_indexer[article])
             articles_count += 1
 
+    # sort to increase speed
     indexes = sorted(indexes)
 
     print 'Getting Pages...'
 
-    current_line = 0
     contents = ''
 
+    # for each one of the indexes, get the line.
     for index in indexes:
         text = linecache.getline(path_master_file, index)
         contents = contents + text
@@ -304,7 +299,7 @@ for pattern in patterns:
 
 The code prints if run: 
 
-```shell
+```none
 Opening Indexer...
 Indexer Open.
 Fetching line...
@@ -324,8 +319,8 @@ For the pattern ['when', (6, 7), 'republic', (2, 6), 'along'] we found 4 matches
 
 When querying all of the pages started with A, two things change:
 
-- We access the text file built before that "only" contains pages that start with A. 
-- We also use [regex](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match_RE.py) to query instead of the function provided, you can see it on **P1_Pattern_Match_RE.py**, this is only for speed purposes. 
+- We access the text file that "only" contains pages that start with A. 
+- We also use [regex](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match_RE.py) to query instead of the function provided, this is only for speed purposes. 
 
 Here's a snippet of the script that you can find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/test_letter.py):
 
@@ -377,7 +372,7 @@ You can check the full output in this [GIST](https://gist.github.com/duarteocarm
 
 #### Querying for the whole of Wikipedia
 
-When querying the whole of Wikipedia, a couple of things have to change: 
+When querying the whole of Wikipedia, a couple of things change: 
 
 - The input for the regex query is every line that was cleaned in Part 2. 
 - For each pattern, the results are saved in a text file
@@ -427,3 +422,10 @@ This returns 3 text files:
 - 3.txt
 
 You can find them all in this [GIST](https://gist.github.com/duarteocarmo/b6b6917bc69f4fec2bcf69969f298668), but since they are long, consider downloading them [here](https://www.dropbox.com/sh/eykyvcllq8hxurp/AAA_FU9s0qp_ZcrYy7JBlRVPa?dl=0).  These text files contain each one the pattern, the number of matches, and the time that it took to get them.
+
+
+
+THE END!
+
+*(PS: I'm looking for a partner in the next project, email me of interested :) s160951@student.dtu.dk)*
+
