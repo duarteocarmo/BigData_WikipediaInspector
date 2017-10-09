@@ -170,13 +170,13 @@ def getPage_from_article(articlename):
     return final
 ```
 
-Don't forget that you can access the full code here. 
+Don't forget that you can access the full code [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Extract_Page.py). 
 
 #### Getting multiple pages based on starting letter. 
 
 In this type of problem, the script looks for all the articles names in the JSON indexer **that starts with a particular lette**r, and consequently stores the lines where these occur. 
 
-Here's a portion of the function: 
+Here's a portion of the function that you can also find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Extract_Letter.py).
 
 ```python
 # Extract text from XML dump file based on indexer
@@ -235,6 +235,8 @@ with open(path_found, 'w') as the_file:
 
 In this way, we keep all of the cleaned pages started by A in a text file so that we can query it.
 
+*(I will not gist it because it has 2GB - email me if you want it :) )* 
+
 #### Getting all pages. 
 
 Since we already have stored all of the cleaned web pages, there is no need to 'fetch' anything in particular. 
@@ -243,9 +245,9 @@ Since we already have stored all of the cleaned web pages, there is no need to '
 
 My first approach was to use regex, but for detecting overlapping matches it proved to be not the best solution. Therefore, I adopted the script provided by our teacher and 'adapted it' to return a list of the matches form a string. 
 
-However, the script provided by the teacher seems to be very slow, therefore, I kept my original regex version of it. 
+However, the script provided by the teacher seems to be very slow, therefore, when the amount of pages to parse was very big, I used my regex. 
 
-You can browse them:
+You can browse them in the following links:
 
 - [Non regex teacher version](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match.py)
 - [Regex "me" version](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match_RE.py)
@@ -260,11 +262,13 @@ For every one of the tests that can be found in the GitHub page, the procedure i
 
 #### Querying a single page
 
-In order to test in the 'Cat' page for example, and following the above methodology, the following script is produced:
+In order to test in the 'Cat' page for example, and following the above methodology, the following [script](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/test_page.py) is produced.
+
+You can see a snippet here:
 
 ```python
 # define paths
-path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
+path_save_indexer = '/Users/duarteocarmo/Desktop/bigdata/wiki_index.json'
 path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
 # patterns for query
@@ -286,11 +290,14 @@ for pattern in patterns:
     found = []
     matches = get_all_matches(page, pattern)
 
+    # if there's a match, append.
     if len(matches) != 0:
         match_counter += len(matches)
         found.append(matches)
 
     elapsed_time = time.time() - start_time
+
+    # print necessary results. 
     print '\nFor the pattern {} we found {} matches in {}:'.format(pattern, match_counter, hms_string(elapsed_time))
     print found
 ```
@@ -317,10 +324,10 @@ For the pattern ['when', (6, 7), 'republic', (2, 6), 'along'] we found 4 matches
 
 When querying all of the pages started with A, two things change:
 
-- We access the text file built before. 
-- We also use regex to query instead of the function provided, you can see it on **P1_Pattern_Match_RE.py**, this is only for speed purposes. 
+- We access the text file built before that "only" contains pages that start with A. 
+- We also use [regex](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match_RE.py) to query instead of the function provided, you can see it on **P1_Pattern_Match_RE.py**, this is only for speed purposes. 
 
-Here's a snippet of the script: 
+Here's a snippet of the script that you can find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/test_letter.py):
 
 ```python
 # define paths
@@ -351,11 +358,7 @@ for pattern in patterns:
         print match
 ```
 
-
-
-You can check the results in this [GIST](https://gist.github.com/duarteocarmo/36ac0ff01a880c3b37ee9da113d4e20a).  I found a bunch of matches for the first and second queries, but nothing for the third.
-
-Here's also a snippet: 
+Here's also a snippet of the output:
 
 ```none
 For the pattern "cat" [0, 16] "are" [2, 6] "to" we found the following matches in 0:00:38.24:
@@ -370,18 +373,57 @@ or governor |wor
 For the pattern "when" [6, 7] "republic" [2, 6] "along" we found the following matches in 0:00:36.35:
 ```
 
+You can check the full output in this [GIST](https://gist.github.com/duarteocarmo/36ac0ff01a880c3b37ee9da113d4e20a)
+
 #### Querying for the whole of Wikipedia
 
-When querying the whole of Wikipedia, only this line changes, prompting all of wikipedia.
+When querying the whole of Wikipedia, a couple of things have to change: 
+
+- The input for the regex query is every line that was cleaned in Part 2. 
+- For each pattern, the results are saved in a text file
+
+Anyways, here's a snippet of the code that you can find in full [here](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/test_all.py):
 
 ```python
-# get necessary pages
-pages = getPage_from_all()
+# start match counter
+pattern_counter = 0
+
+# find matches
+for pattern in patterns:
+
+    pattern_counter += 1
+    match_counter = 0
+    matches = []
+    start_time = time.time()
+
+    # open master text file and look for match in each line
+    with open(path_master_file) as infile:
+
+        for line in infile:
+
+            match = find_match_from_string(pattern, line)
+
+            # if match exists, append to matches
+            if len(match) != 0:
+                match_counter += 1
+                matches.append(match)
+
+    elapsed_time = time.time() - start_time
+
+    print 'Writing pattern {}.'.format(pattern_counter)
+
+    # open text file to write results and write them
+    with open(pattern_path.format(pattern_counter), 'a') as the_file:
+        the_file.write('\nFor the pattern {} we found {} matches in {}:\n'.format(pattern, match_counter,
+                                                                                  hms_string(elapsed_time)))
+        for match in matches:
+            the_file.write("%s\n" % match)
 ```
 
-This returns:
+This returns 3 text files:
 
-```shell
+- 1.txt
+- 2.txt
+- 3.txt
 
-```
-
+You can find them all in this [GIST](https://gist.github.com/duarteocarmo/b6b6917bc69f4fec2bcf69969f298668), but since they are long, consider downloading them [here](https://www.dropbox.com/sh/eykyvcllq8hxurp/AAA_FU9s0qp_ZcrYy7JBlRVPa?dl=0).  These text files contain each one the pattern, the number of matches, and the time that it took to get them.
