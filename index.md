@@ -351,9 +351,22 @@ for pattern in patterns:
 
 
 
-You can check the results in this [gist](https://gist.github.com/duarteocarmo/36ac0ff01a880c3b37ee9da113d4e20a).  I found a bunch of matches for the first and second queries, but nothing for the third.
+You can check the results in this [GIST](https://gist.github.com/duarteocarmo/36ac0ff01a880c3b37ee9da113d4e20a).  I found a bunch of matches for the first and second queries, but nothing for the third.
 
+Here's also a snippet: 
 
+```none
+For the pattern "cat" [0, 16] "are" [2, 6] "to" we found the following matches in 0:00:38.24:
+cations are used to
+cations== arrays are used to
+...
+For the pattern "or" [6, 7] "or" [2, 6] "or" we found the following matches in 0:00:38.48:
+ort network|wor
+orting more tor
+or governor |wor
+...
+For the pattern "when" [6, 7] "republic" [2, 6] "along" we found the following matches in 0:00:36.35:
+```
 
 #### Querying for the whole of Wikipedia
 
