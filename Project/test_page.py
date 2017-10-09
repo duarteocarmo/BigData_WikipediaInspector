@@ -4,7 +4,7 @@ from P1_time_string import hms_string
 import time
 
 # define paths
-path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
+path_save_indexer = '/Users/duarteocarmo/Desktop/bigdata/wiki_index.json'
 path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
 # patterns for query

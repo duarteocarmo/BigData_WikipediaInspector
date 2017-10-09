@@ -5,7 +5,7 @@ import json
 def getPage_from_article(articlename):
 
     # Get path of necessary files
-    path_save_indexer = '/Volumes/DUARTE OC/BIG DATA/wiki_index.json'
+    path_save_indexer = '/Users/duarteocarmo/Desktop/bigdata/wiki_index.json'
     path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
     print 'Opening Indexer...'

@@ -235,34 +235,20 @@ In this way, we keep all of the cleaned pages started by A in a text file so tha
 
 #### Getting all pages. 
 
-Since we already cleaned the text, **we can ignore the indexer file** for this part. 
-
-Here's the script: 
-
-```python  
-def getPage_from_all():
-
-    # Get path of necessary files
-    path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
-
-    print 'Getting Pages...'
-
-    contents = ''
-
-    # Loop over lines and return when its reached.
-    with open(path_master_file) as infile:
-        for line in infile:
-                contents = contents + line
-
-    print 'Got all Pages.'
-    return contents
-```
+Since we already have stored all of the cleaned web pages, there is no need to 'fetch' anything in particular. 
 
 ### Part 4: Querying for a pattern. 
 
 My first approach was to use regex, but for detecting overlapping matches it proved to be not the best solution. Therefore, I adopted the script provided by our teacher and 'adapted it' to return a list of the matches form a string. 
 
-You can see the code on the GitHub project page if you're interested. 
+However, the script provided by the teacher seems to be very slow, therefore, I kept my original regex version of it. 
+
+You can browse them:
+
+- Non regex teacher version
+- Regex "me" version
+
+
 
 ### Part 5: Testing and results.
 
