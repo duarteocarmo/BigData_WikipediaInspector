@@ -1,8 +1,8 @@
 ## Welcome to my solution for Challenge 1. 
 
-It was a long, tedious and lonely road but here it is (I think). Instead of writting a report on share latex, I decided to make a website explaining my solution. Like this I can include code snippets, links to the repo and much more. 
+It was a long, tedious and lonely road but here it is. Instead of writting a report on share latex, I decided to make a website explaining my solution. Like this I can include code snippets, links to the repo and much more. 
 
-PS: I will also send a markdown file so that you can make sure I didn't change anything after the delivery date. 
+*PS: I will also send a pdf file so that you can make sure I didn't change anything after the delivery date.* 
 
 The solution has severall parts:
 
@@ -172,14 +172,19 @@ Don't forget that you can access the full code here.
 
 #### Getting multiple pages based on starting letter. 
 
-In this type of problem, the script looks for all the articles names in the JSON indexer **that start with a particular lette**r, and consequently stores the lines where these occur. 
+In this type of problem, the script looks for all the articles names in the JSON indexer **that starts with a particular lette**r, and consequently stores the lines where these occur. 
 
 Here's a portion of the function: 
 
 ```python
+# Extract text from XML dump file based on indexer
 def getPage_from_articles_letter(letter):
 
     letter_lowercase = letter.lower()
+
+    # Get path of necessary files
+    path_save_indexer = '/Users/duarteocarmo/Desktop/bigdata/wiki_index.json'
+    path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
 
     print 'Opening Indexer'
 
@@ -190,29 +195,43 @@ def getPage_from_articles_letter(letter):
 
     indexes = []
 
+    articles_count = 0
+
     for article in wiki_indexer.keys():
         article_lowercase = article.lower()
-
         if article_lowercase.startswith(letter_lowercase):
             indexes.append(wiki_indexer[article])
+            articles_count += 1
+
+    indexes = sorted(indexes)
 
     print 'Getting Pages...'
 
     current_line = 0
     contents = ''
 
-    # Loop over lines and return when its reached.
-    with open(path_master_file) as infile:
-        for line in infile:
-            current_line += 1
-
-            if current_line in indexes:
-                contents = contents + line
+    for index in indexes:
+        text = linecache.getline(path_master_file, index)
+        contents = contents + text
+        articles_count -= 1
 
     print 'Got Pages with {}'.format(letter)
 
     return contents
 ```
+
+After this, we can save all of the lines that started with a particular letter to a particular text file, which was exactly what I did, by running the following script: 
+
+```python
+path_found = '/Users/duarteocarmo/Desktop/bigdata/a_pages.txt'
+
+pages = getPage_from_articles_letter('A')
+
+with open(path_found, 'w') as the_file:
+    the_file.write(pages)
+```
+
+In this way, we keep all of the cleaned pages started by A in a text file so that we can query it.
 
 #### Getting all pages. 
 
@@ -308,37 +327,47 @@ For the pattern ['when', (6, 7), 'republic', (2, 6), 'along'] we found 4 matches
 
 #### Querying all pages started in 'A'
 
-For querying all of the pages started in A, the procedure is the same, only a portion of the code changes: 
+When querying all of the pages started with A, two things change:
+
+- We access the text file built before. 
+- We also use regex to query instead of the function provided, you can see it on **P1_Pattern_Match_RE.py**, this is only for speed purposes. 
+
+Here's a snippet of the script: 
 
 ```python
-# get necessary pages
-pages = getPage_from_articles_letter('A')
-print pages
+# define paths
+path_save_indexer = '/Users/duarteocarmo/Desktop/bigdata/wiki_index.json'
+path_master_file = '/Users/duarteocarmo/Desktop/bigdata/articles.txt'
+path_found = '/Users/duarteocarmo/Desktop/bigdata/a_pages.txt'
+
+# patterns for query
+pattern1 = '"cat" [0, 16] "are" [2, 6] "to"'
+pattern2 = '"or" [6, 7] "or" [2, 6] "or"'
+pattern3 = '"when" [6, 7] "republic" [2, 6] "along"'
+patterns = [pattern1, pattern2, pattern3]
+
+# open file with articles
+f = open(path_found, 'r')
+pages = f.read()
 
 # start match counter
 match_counter = 0
 
-# loop over patterns
+# find matches
 for pattern in patterns:
     start_time = time.time()
-
-    found = []
-    for page in pages:
-        matches = get_all_matches(page, pattern)
-        if len(matches) != 0:
-            match_counter += len(matches)
-            found.append(matches)
+    a = find_match_from_string(pattern, pages)
     elapsed_time = time.time() - start_time
-
-    print '\nFor the pattern {} we found {} matches in {}:'.format(pattern, match_counter, hms_string(elapsed_time))
-    print found
+    print '\nFor the pattern {} we found the following matches in {}:'.format(pattern, hms_string(elapsed_time))
+    for match in a:
+        print match
 ```
 
-This returns the following: 
 
-```shell
 
-```
+You can check the results in this [gist](https://gist.github.com/duarteocarmo/36ac0ff01a880c3b37ee9da113d4e20a).  I found a bunch of matches for the first and second queries, but nothing for the third.
+
+
 
 #### Querying for the whole of Wikipedia
 
