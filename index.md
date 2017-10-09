@@ -20,6 +20,8 @@ The **multistream.xml** (64GB = goodbye hardrive.) is a separation of all of the
 
 Sometimes, the page has absolutely nothing inside it (I don't know how/why) therefore, when this happens, it returns '#redirect'. You'll see why in the next part. 
 
+Oh, and it also replaces '/n' and '/r' with absolutely nothing. 
+
 You can find my cleanPage function [here](https://github.com/duarteocarmo/WIKIPEDIA/blob/master/Project/P1_Clean_Page.py).
 
 Here is a snippet of the function: 
