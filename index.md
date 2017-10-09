@@ -245,8 +245,8 @@ However, the script provided by the teacher seems to be very slow, therefore, I 
 
 You can browse them:
 
-- Non regex teacher version
-- Regex "me" version
+- [Non regex teacher version](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match.py)
+- [Regex "me" version](https://github.com/duarteocarmo/BigData_WikipediaInspector/blob/master/Project/P1_Pattern_Match_RE.py)
 
 
 
