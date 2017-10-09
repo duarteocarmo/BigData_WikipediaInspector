@@ -22,19 +22,21 @@ def getPage_from_articles_letter(letter):
 
     articles_count = 0
 
+    # for each article that starts with letter append line number
     for article in wiki_indexer.keys():
         article_lowercase = article.lower()
         if article_lowercase.startswith(letter_lowercase):
             indexes.append(wiki_indexer[article])
             articles_count += 1
 
+    # sort to increase speed
     indexes = sorted(indexes)
 
     print 'Getting Pages...'
 
-    current_line = 0
     contents = ''
 
+    # for each one of the indexes, get the line.
     for index in indexes:
         text = linecache.getline(path_master_file, index)
         contents = contents + text

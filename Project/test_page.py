@@ -26,10 +26,13 @@ for pattern in patterns:
     found = []
     matches = get_all_matches(page, pattern)
 
+    # if there's a match, append.
     if len(matches) != 0:
         match_counter += len(matches)
         found.append(matches)
 
     elapsed_time = time.time() - start_time
+
+    # print necessary results. 
     print '\nFor the pattern {} we found {} matches in {}:'.format(pattern, match_counter, hms_string(elapsed_time))
     print found

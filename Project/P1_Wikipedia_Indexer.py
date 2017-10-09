@@ -91,5 +91,6 @@ with open(path_master_file) as f:
 with open(path_save_indexer) as json_file:
     wiki_indexer = json.load(json_file)
 
+# confirm that everything is the same size
 if number_of_lines_in_text == len(wiki_indexer):
     print 'There is coherence.'

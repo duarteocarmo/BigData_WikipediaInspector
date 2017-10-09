@@ -26,14 +26,15 @@ for pattern in patterns:
     matches = []
     start_time = time.time()
 
+    # open master text file and look for match in each line
     with open(path_master_file) as infile:
 
         for line in infile:
 
             match = find_match_from_string(pattern, line)
 
+            # if match exists, append to matches
             if len(match) != 0:
-
                 match_counter += 1
                 matches.append(match)
 
@@ -41,6 +42,7 @@ for pattern in patterns:
 
     print 'Writing pattern {}.'.format(pattern_counter)
 
+    # open text file to write results and write them
     with open(pattern_path.format(pattern_counter), 'a') as the_file:
         the_file.write('\nFor the pattern {} we found {} matches in {}:\n'.format(pattern, match_counter,
                                                                                   hms_string(elapsed_time)))

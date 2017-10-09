@@ -1,6 +1,5 @@
 import json
 
-
 # Extract text from XML dump file based on indexer
 def getPage_from_article(articlename):
 
